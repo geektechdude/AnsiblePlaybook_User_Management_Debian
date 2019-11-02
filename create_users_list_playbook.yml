@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    users:
+    - username: "gary"
+    - username: "geektechstuff"
+    - username: "galactus"
+    - username: "drdoom"
+  tasks:
+
+  - name: Adding Fantastic_Four group
+    group:
+      name: Fantastic_Four
+      state: present
+
+  - name: Adding User {{ item.username }}
+    user: 
+      name: "{{ item.username }}"
+      create_home: yes
+      comment: "Created with Ansible by GeekTechStuff"
+      password: "{{ 'password' | password_hash('sha512') }}"
+      update_password: on_create
+      groups: Fantastic_Four
+    with_items: "{{ users }}"
+      
