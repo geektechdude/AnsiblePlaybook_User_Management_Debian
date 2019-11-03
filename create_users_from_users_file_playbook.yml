@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - users.yml
+  tasks:
+  
+  - name: Adding coders group
+    group:
+      name: Coders
+      state: present
+
+  - name: Adding Users
+    user: 
+      name: "{{ item.name }}"
+      create_home: yes
+      comment: "Created with Ansible by GeekTechStuff"
+      password: "{{ 'password' | password_hash('sha512') }}"
+      update_password: on_create
+      groups: Coders
+    with_items: "{{ users }}"
+  
+      
