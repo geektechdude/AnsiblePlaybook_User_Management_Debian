@@ -10,4 +10,5 @@ Reads the user variables from the file "users.yml", creates the users with the p
 --  users.yml
 Used with "create_users_from_users_file_playbook.yml". Contains a list of usernames to create, and a list of usernames to remove.
 
+For more information please see: https://geektechstuff.com/2019/11/03/using-ansible-to-create-and-manage-users-linux-raspberry-pi/
 
