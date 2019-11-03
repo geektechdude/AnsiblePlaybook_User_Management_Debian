@@ -20,4 +20,32 @@
       groups: Coders
     with_items: "{{ users }}"
   
-      
+  - name: Create SSH Folders
+    file:
+      path: /home/{{ item.name }}/.ssh
+      owner: "{{ item.name }}"
+      state: directory
+    with_items: "{{ users }}"
+  
+  - name: Create Authorized Keys File
+    file:
+      path: "/home/{{ item.name }}/.ssh/Authorized_Keys"
+      state: touch
+      owner: "{{ item.name }}"
+    with_items: "{{ users }}"
+  
+  - name: Copy SSH Key To Users Home Folder
+    copy:
+      src: "{{ item.name}}_id_rsa_2048.pub"
+      dest: "/home/{{ item.name}}/{{ item.name}}_id_rsa_2048.pub"
+      owner: "{{ item.name }}"
+    with_items: "{{ users }}"
+
+  - name: Remove User Account
+    user: 
+      name: "{{ item.name }}"
+      state: absent
+      remove: yes
+      force: yes
+    with_items: "{{ users_to_remove }}"
+  
