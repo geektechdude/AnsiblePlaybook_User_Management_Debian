@@ -2,3 +2,6 @@ users:
   - name: gary
   - name: geektechstuff
   - name: user1
+
+users_to_remove:
+  - name: user1
