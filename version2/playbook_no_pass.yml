@@ -1,0 +1,46 @@
+---
+    - hosts: all
+      become: yes
+      vars_files:
+        - vars/users.yml
+      tasks:
+
+      - name: Add a Group called avengers
+        group:
+          name: avengers
+          state: present
+
+      - name: Add avengers Group to sudoers
+        copy:
+          content: "%avengers ALL=(ALL:ALL) NOPASSWD:ALL"
+          dest: /etc/sudoers.d/020_avengers-nopasswd
+          mode: 0440
+
+      - name: Adding users
+        user:
+          name: "{{ item.name }}"
+          create_home: yes
+          comment: "Created via Ansible / GeekTechStuff"
+          groups: avengers
+        with_items: "{{ users }}"
+    
+      - name: Create SSH folders
+        file:
+          path: /home/{{ item.name }}/.ssh
+          owner: "{{ item.name }}"
+          state: directory
+        with_items: "{{ users }}"
+    
+      - name: Create SSH authorized_keys file
+        file:
+          path: "/home/{{ item.name }}/.ssh/authorized_keys"
+          state: touch
+          owner: "{{ item.name }}"
+        with_items: "{{ users }}"
+    
+      - name: Manage SSH keys
+        authorized_key:
+          user: "{{ item.name }}"
+          key: " {{ item.key }}"
+          state: present
+        with_items: "{{ users }}"

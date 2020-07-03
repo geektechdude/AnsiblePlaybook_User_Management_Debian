@@ -1,0 +1,13 @@
+---
+    users:
+        - name: geek
+          state: present
+          key: "ssh-rsa key here - make sure to keep the speech marks"
+
+        - name: tech
+          state: present
+          key: "ssh-rsa key here - make sure to keep the speech marks"
+        
+        - name: stuff
+          state: present
+          key: "ssh-rsa key here - make sure to keep the speech marks"
