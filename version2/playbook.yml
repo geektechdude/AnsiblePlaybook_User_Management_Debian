@@ -23,7 +23,7 @@
           comment: "Created via Ansible / GeekTechStuff"
           password: "{{ 'password' | password_hash('sha512') }}"
           update_password: on_create
-          groups: devops
+          groups: avengers
         with_items: "{{ users }}"
     
       - name: Create SSH folders
